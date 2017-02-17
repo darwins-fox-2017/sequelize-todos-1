@@ -21,7 +21,7 @@ class Todo {
   static delete() {
     db.Todo.findById(argv[1]).then(function(resultFindById) {
       return resultFindById.destroy().then(function(message) {
-        console.log(`task already deleted`);
+        console.log(`Deleted task with id ${argv[1]} from your TODO list...`);
       })
     })
   }
@@ -29,7 +29,7 @@ class Todo {
   static completed() {
     db.Todo.findById(argv[1]).then(function(resultFindById) {
       return resultFindById.update({ status: 'X'}, {fields: ['status']}).then(function(message) {
-        console.log(`task number ${argv[1]} already completed`);
+        console.log(`${resultFindById.task} have been completed`);
       })
     })
   }
