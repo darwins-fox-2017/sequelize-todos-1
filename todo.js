@@ -97,15 +97,7 @@ class Todo {
 	}
 
   completed() {
-    // db.Todo.findById(this.command[3]).then(function(data) {
-    //   if(data.completed == 0) {
-    //     data.updateAttributes({
-    //       completed: 1,
-    //       completedAt: new Date()
-    //     })
-    //     console.log(`${data.task} completed !`);
-    //   }
-    // })
+  
     db.Todo.update({'completed': 1}, {'where': {id: `${this.command[3]}`}}).then(function() {
       console.log('Data Completed');
     })
