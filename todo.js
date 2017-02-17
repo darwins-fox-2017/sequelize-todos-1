@@ -7,7 +7,7 @@ class Todo {
   static list() {
     db.Todo.findAll().then(function(result) {
         for(let i = 0; i < result.length; i++) {
-          console.log(`${i + 1}. Id Number: ${result[i].id} [${result[i].status}] ${result[i].task} `);
+          console.log(`${i + 1}. [${result[i].status}] ${result[i].task} `);
         }
     })
   }
@@ -15,23 +15,39 @@ class Todo {
   static add() {
     db.Todo.create({ task: `'${argv[1]}'`, status: ' '}).then(function(result) {
       console.log(`task ${argv[1]} berhasil ditambahkan`);
+    }).catch(function(errMessage) {
+      console.log(`failed to add`);
     })
   }
 
   static delete() {
-    db.Todo.findById(argv[1]).then(function(resultFindById) {
-      return resultFindById.destroy().then(function(message) {
-        console.log(`Deleted task with id ${argv[1]} from your TODO list...`);
+    db.Todo.findAll().then(function(resultFindAll) {
+      return resultFindAll[argv[1] - 1].destroy().then(function(message) {
+          console.log(`Deleted task with id ${argv[1]} from your TODO list...`);
       })
+    }).catch(function(errMessage) {
+      console.log(`failed, Number ID not found`);
     })
   }
 
   static completed() {
-    db.Todo.findById(argv[1]).then(function(resultFindById) {
-      return resultFindById.update({ status: 'X'}, {fields: ['status']}).then(function(message) {
-        console.log(`${resultFindById.task} have been completed`);
-      })
+    db.Todo.findAll().then(function(resultFindAll) {
+      return resultFindAll[Number(argv[1] - 1)].update({ status: 'X'}, {fields: ['status']}).then(function(message) {
+          console.log(`${resultFindAll[Number(argv[1] - 1)].task} have been completed`);
+        })
+    }).catch(function(errMessage) {
+      console.log(`failed, Number ID not found`);
     })
+  }
+
+  static uncompleted() {
+    db.Todo.findAll().then(function(resultFindAll) {
+      return resultFindAll[Number(argv[1] - 1)].update({ status: ' '}, {fields: ['status']}).then(function(message) {
+        console.log(`${resultFindAll[Number(argv[1] - 1)].task} have been uncompleted`);
+        })
+      }).catch(function(errMessage) {
+        console.log(`failed, Number ID not found`);
+      })
   }
 
   static help() {
@@ -61,5 +77,8 @@ switch (argv[0]) {
     break;
   case 'help':
     Todo.help()
+    break;
+  case 'uncompleted':
+    Todo.uncompleted()
     break;
 }
