@@ -41,6 +41,18 @@ switch (argv[2]) {
       console.log("Data is sucsessfully remove!");
     })
 
+      break;
+
+  case 'add':
+
+    models.Todo.bulkCreate([{
+      name : argv.slice(3,argv.length).join(' '),
+      status : false,
+      status_updated : new Date()
+    }]).then(function(){
+      console.log('add success!');
+    })
+
     break;
 
   case 'task':
