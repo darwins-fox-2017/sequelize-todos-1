@@ -44,6 +44,16 @@ switch(arg[2]) {
     })
   break
 
+  case "uncomplete":
+    db.Todo.findById(argv).then(function (todo){
+      if(todo.complete === 1){
+          todo.updateAttributes({
+            complete: 0
+          })
+      }
+    })
+  break
+
   default:
     console.log('node todo.js add <task_content>\nnode todo.js list\nnode todo.js delete <task_id>\nnode todo.js complete <task_id>')
   break
@@ -55,6 +65,7 @@ babel-node todo.js list
 babel-node todo.js add <task>
 babel-node todo.js delete <id>
 babel-node todo.js complete <id>
+babel-node todo.js uncomplete <id>
 */
 
 //TUGAS TodoList WEEK-2 (MVC)
