@@ -42,8 +42,11 @@ if(argv == 'add') {
 }
 
 if(argv[0] == 'delete') {
-  db.Todo.findAll().then(function(data) {
-    return data[input-1].destroy().then(function(test){
+  db.Todo.findById(input).then(function(data) {
+    // return data[Number(input)-1].destroy().then(function(test){
+    //   console.log(`data deleted`);
+    // })
+    data.destroy().then(function() {
       console.log(`data deleted`);
     })
   })
@@ -66,5 +69,5 @@ if (argv[0] == 'uncompleted'){
       updatedAt: new Date()
     })
   })
-  
+
 }
